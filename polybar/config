@@ -1,0 +1,108 @@
+include-file = /opt/powerline-for-polybar/powerline-for-polybar.config
+
+[bar/fire]
+enable-ipc = true
+font-0 = "JetBrains Mono NF:pixelsize=16:antialias=true;3"
+monitor = ${env:MONITOR:}
+bottom = false
+fixed-center = true
+background = #282c34
+foreground = #abb2bf
+
+modules-left = i3
+modules-center = xwindow
+modules-right = network memory date cpu
+
+[module/i3]
+type = internal/i3
+index-sort = true
+
+label-mode = %mode%
+label-focused-foreground = #e06c75
+
+[module/cpu]
+inherit = powerline-templates/right-to-left-item
+type = internal/cpu
+
+label = " ﬙ %percentage%% "
+format-background = ${self.background}
+format-foreground = #282c34
+
+background = #98c379
+background-next = #61afef
+
+[module/date]
+inherit = powerline-templates/right-to-left-item
+type = internal/date
+time = %l:%M
+time-alt = " %m/%d/%Y%"
+
+label = "%time% "
+
+format-background = ${self.background}
+format-foreground = #282c34
+
+background = #61afef
+background-next = #be5046
+
+[module/memory]
+inherit = powerline-templates/right-to-left-item
+type = internal/memory
+
+label = "  %gb_used% "
+
+format-background = ${self.background}
+format-foreground = #282c34
+
+background = #be5046
+background-next = #56b6c2
+
+[module/network]
+inherit = powerline-templates/right-to-left-item
+type = internal/network
+interface = wlan0
+
+label-disconnected = " Disconnected "
+label-connected = " %local_ip% "
+
+label-disconnected-background = ${self.background}
+label-disconnected-foreground = #282c34
+
+label-connected-background = ${self.background}
+label-connected-foreground = #282c34
+
+background = #56b6c2
+background-next = #282c34
+
+[module/previous]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo " "
+click-left = "spotifyctl -q previous"
+
+
+[module/next]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo ""
+click-left = "spotifyctl -q next"
+
+
+[module/playpause]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo "  "
+hook-2 = echo "  "
+click-left = "spotifyctl -q playpause"
+
+
+[module/spotify]
+type = custom/ipc
+; Default
+hook-0 = echo ""
+; Playing/paused show song name and artist
+hook-1 = spotifyctl status --format '%artist%: %title%' --max-length 20 --max-title-length 10 --max-artist-length 10 --trunc '...'
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
